@@ -1,5 +1,5 @@
 import userData from '../models/User';
-import Helper from '../middleware/Help';
+import Helper from './Help';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -31,7 +31,8 @@ class userController {
         status: 201,
         data: [{
           token: token
-        }]
+        }],
+        userDatas: userData
       });
   }
 
