@@ -9,7 +9,8 @@ class UserValidation {
 
     if (firstName === undefined || lastName === undefined || password === undefined) {
       return res.status(400).json({
-        message: 'All or some of the field is/are undefined'
+        status: 400,
+        error: 'All or some of the field is/are undefined'
       });
     }
     //Search through dummy database to check if email exits
