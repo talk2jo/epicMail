@@ -8,7 +8,7 @@ const router = express.Router();
 router.route('/auth/signup/')
   .post(userValidator.Signup, UserController.signUp);
 router.route('/auth/signin/')
-  .post(Auth.verifyToken, UserController.signin);
+  .post(userValidator.Signin, Auth.verifyToken, UserController.signin);
 
 
 export default router;

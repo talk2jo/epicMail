@@ -55,9 +55,7 @@ class userController {
       status: 401,
       error: 'Un-Authorized User'
     });
-
   }
-
 }
 
 export default new userController;

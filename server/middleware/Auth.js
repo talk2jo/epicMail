@@ -17,7 +17,7 @@ const Auth = {
         return res.status(401)
           .json({
             status: 401,
-            error: err.message + 'Invalid user'
+            error: err.message + ' Invalid user'
           })
       }
 
@@ -26,29 +26,11 @@ const Auth = {
       if (user == undefined) {
         return res.status(403).json({
           status: 403,
-          error: 'The token provide is invalid' + 'Invalid user'
+          error: 'The token provide is invalid'
         })
       }
       req.user = { id: decoded.userId };
       next();
-
-
-      //   db.query(text, [decoded.userId]).then((user) => {
-      //     if (!user.rows[0]) {
-      //       return res.status(403)
-      //         .json({
-      //           status: 'Fail',
-      //           message: 'The token you provided is invalid'
-      //         });
-      //     }
-
-      //     req.user = { id: decoded.userId };
-      //     next();
-      //   }).catch(err => res.status(403).json({
-      //     status: 'Failed',
-      //     message: err.message
-      //   }));
-
     });
   }
 }
