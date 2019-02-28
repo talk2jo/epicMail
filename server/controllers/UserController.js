@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-class userController {
+class User {
   /**
    * Method for creating User
    * @static
@@ -58,4 +58,4 @@ class userController {
   }
 }
 
-export default new userController;
+export default new User;
