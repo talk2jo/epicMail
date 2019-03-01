@@ -26,7 +26,7 @@ const Auth = {
       if (user == undefined) {
         return res.status(403).json({
           status: 403,
-          error: 'The token provide is invalid'
+          error: 'The token provided is invalid'
         })
       }
       req.user = { id: decoded.userId };

@@ -22,10 +22,10 @@ class UserValidation {
         error: 'The email you entered already exist'
       });
     }
-    if (!validator.isLength(firstName, { min: 3, max: 20 })) {
+    if (!validator.isLength(firstName, { min: 2, max: 20 })) {
       errorMessage.firstName = 'Fullname must not be less than 3 or above 20 characters';
     }
-    if (!validator.isLength(lastName, { min: 3, max: 20 })) {
+    if (!validator.isLength(lastName, { min: 2, max: 20 })) {
       errorMessage.lastName = 'Lastname must not beless than 3 or above 20 characters';
     }
     if (firstName.search(/^[a-zA-Z]*$/) === -1) {
@@ -57,7 +57,7 @@ class UserValidation {
       errorMessage.password = 'Please enter a valid password';
     }
     if (!(Object.keys(errorMessage).length === 0)) {
-      return res.status(400).json(errorMessage);
+      return res.status(400).json({ status: 400, error: errorMessage });
     }
     return next();
   }
