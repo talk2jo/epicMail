@@ -57,7 +57,7 @@ class UserValidation {
       errorMessage.password = 'Please enter a valid password';
     }
     if (!(Object.keys(errorMessage).length === 0)) {
-      return res.status(400).json(errorMessage);
+      return res.status(400).json({ status: 400, error: errorMessage });
     }
     return next();
   }

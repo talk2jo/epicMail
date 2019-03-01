@@ -30,6 +30,8 @@ class Message {
         data: messageData[messageData.length - 1]
       });
   }
+
+  
 }
 
 export default new Message;
