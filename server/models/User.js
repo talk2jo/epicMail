@@ -19,6 +19,6 @@ const users = [
     firstName: 'Praise',
     lastName: 'Williams',
     password: 'password'
-  },
+  }
 ];
 export default users;
