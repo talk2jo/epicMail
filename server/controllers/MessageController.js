@@ -2,8 +2,7 @@ import messageData from '../models/Message';
 import sentMessage from '../models/Sent';
 import moment from 'moment';
 import contactsData from '../models/Contacts';
-import inbox from '../models/Inbox';
-import { userInfo } from 'os';
+import inboxData from '../models/Inbox';
 
 class Message {
   /**
@@ -55,7 +54,7 @@ class Message {
       }
 
       /** push message to receiver Inbox list */
-      inbox.push(sendMessage);
+      inboxData.push(sendMessage);
       /** push message to sender sent list */
       sentMessage.push(sendMessage);
 
@@ -73,6 +72,21 @@ class Message {
         status: 201,
         data: messageData[messageData.length - 1]
       });
+  }
+
+  getInbox(req, res) {
+    let userInbox = [];
+    let filterUserInbox = inboxData.filter((inbox) => {
+      if (inbox.recieverId == req.user.id) {
+        userInbox.push(inbox);
+      }
+    });
+
+    return res.status(200).json({
+      status: 200,
+      data: userInbox
+    });
+
   }
 }
 
