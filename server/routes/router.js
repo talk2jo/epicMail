@@ -17,6 +17,9 @@ router.route('/message/')
   .get(Auth.verifyToken, MessageController.getInbox);
 router.route('/message/sent')
   .get(Auth.verifyToken, MessageController.getSentMessage);
+router.route('/message/unread')
+  .get(Auth.verifyToken, MessageController.getUnreadMessages);
+
 
 
 export default router;

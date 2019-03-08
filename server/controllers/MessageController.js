@@ -6,7 +6,7 @@ import sentData from '../models/Sent';
 
 class Message {
   /**
-   * Method to create message and save as draft
+   * Method to create or send message for user
    * 
    * @static 
    * @param {Request} req
@@ -38,7 +38,7 @@ class Message {
       });
   }
   /**
-   * Method to get user Inbox
+   * Method to get user received messages
    * 
    * @static 
    * @param {Request} req
@@ -61,7 +61,7 @@ class Message {
   }
 
   /**
-  * Method to user sent message
+  * Method to fetch user sent messages
   * 
   * @static 
   * @param {Request} req
@@ -80,6 +80,28 @@ class Message {
     return res.status(200).json({
       status: 200,
       data: sentMessage
+    });
+  }
+
+  /**
+  * Method to fetch user unread received messages
+  * 
+  * @static 
+  * @param {Request} req
+  * @param {Response} res
+  * @return {object} return sent message by user.
+  */
+  getUnreadMessages(req, res) {
+    let userInbox = [];
+    let filterUserInbox = inboxData.filter((inbox) => {
+      if (inbox.receiverId == req.user.id && inbox.read == 'false') {
+        userInbox.push(inbox);
+      }
+    });
+
+    return res.status(200).json({
+      status: 200,
+      data: userInbox
     });
   }
 }
