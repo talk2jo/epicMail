@@ -15,6 +15,8 @@ router.route('/auth/signin/')
 router.route('/message/')
   .post(Auth.verifyToken, messageValidator.send, Message.create)
   .get(Auth.verifyToken, MessageController.getInbox);
+router.route('/message/sent')
+  .get(Auth.verifyToken, MessageController.getSentMessage);
 
 
 export default router;

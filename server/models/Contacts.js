@@ -13,6 +13,20 @@ const Contacts = [
     lastName: 'Williams',
     UserId: 4
   },
+  {
+    id: 3,
+    email: 'Ali@gmail.com',
+    firstName: 'Praise',
+    lastName: 'Williams',
+    UserId: 5
+  },
+  {
+    id: 4,
+    email: 'Ali@gmail.com',
+    firstName: 'Praise',
+    lastName: 'Williams',
+    UserId: 4
+  },
 ]
 
 export default Contacts;

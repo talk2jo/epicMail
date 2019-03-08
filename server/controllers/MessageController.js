@@ -1,8 +1,8 @@
 import messageData from '../models/Message';
-import sentMessage from '../models/Sent';
 import moment from 'moment';
-import contactsData from '../models/Contacts';
 import inboxData from '../models/Inbox';
+import sendMessage from '../controllers/sendMessage';
+import sentData from '../models/Sent';
 
 class Message {
   /**
@@ -14,70 +14,42 @@ class Message {
    * @return {object} return create message for user.
    */
   create(req, res) {
-    const { receiverId, subject, message, messageStatus } = req.body;
+    const { subject, message, messageStatus } = req.body;
 
-    const newMessage = {
+    if (messageStatus === 'send') {
+      return sendMessage(req, res);
+    }
+
+    const draftMessage = {
       id: messageData.length + 1,
       createdOn: moment(new Date()),
       subject,
       message,
-      parentMessageId: messageData.length + 3,
-      messageStatus
+      parentMessageId: 1,
+      status: 'draft',
+      userId: req.user.id // Owner of the message
     }
 
-    if (newMessage.messageStatus === 'send') {
-      /** validate receiver Id */
-      if (!receiverId) {
-        res.status(400).json({
-          status: 400,
-          error: 'Receiver id require and should be integer or change status to draft to save message'
-        });
-      }
-      /* check if reciever(contact) with the given receiving id and the login user id exist */
-      let contact = contactsData.find(c => c.id == receiverId && (c => c.UserId == req.user.id));
-      if (!contact) {
-        return res.status(400).json({
-          status: 400,
-          error: 'Contact with the giving receiving id does not exist'
-        });
-      }
-
-      const sendMessage = {
-        id: messageData.length + 1,
-        createdOn: moment(new Date()),
-        subject,
-        message,
-        senderId: userInfo.id,
-        receiverId,
-        parentMessageId: messageData.length + 3,
-        messageStatus
-      }
-
-      /** push message to receiver Inbox list */
-      inboxData.push(sendMessage);
-      /** push message to sender sent list */
-      sentMessage.push(sendMessage);
-
-      /** return message create */
-      return res.status(201).json({
-        status: 200,
-        data: newMessage
-      });
-
-    }
-
-    messageData.push(newMessage);
+    messageData.push(draftMessage);
     return res.status(201)
       .json({
         status: 201,
-        data: messageData[messageData.length - 1]
+        data: draftMessage
       });
   }
+  /**
+   * Method to get user Inbox
+   * 
+   * @static 
+   * @param {Request} req
+   * @param {Response} res
+   * @return {object} return Inbox message for user.
+   */
 
   getInbox(req, res) {
     let userInbox = [];
     let filterUserInbox = inboxData.filter((inbox) => {
-      if (inbox.recieverId == req.user.id) {
+      if (inbox.receiverId == req.user.id) {
         userInbox.push(inbox);
       }
     });
@@ -86,7 +58,29 @@ class Message {
       status: 200,
       data: userInbox
     });
+  }
 
+  /**
+  * Method to user sent message
+  * 
+  * @static 
+  * @param {Request} req
+  * @param {Response} res
+  * @return {object} return sent message by user.
+  */
+
+  getSentMessage(req, res) {
+    let sentMessage = [];
+    let filterSentMessage = sentData.filter((outbox) => {
+      if (outbox.senderId == req.user.id) {
+        sentMessage.push(outbox);
+      }
+    });
+
+    return res.status(200).json({
+      status: 200,
+      data: sentMessage
+    });
   }
 }
 
